@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ChallengesWithTestsMark8
 {
@@ -100,32 +101,25 @@ namespace ChallengesWithTestsMark8
 
         public double AverageEvens(int[] numbers)
         {
+            if (numbers == null || numbers.Length == 0)
             {
-                int evenCount = 0;
-                int evenSum = 0;
-                for (int i = 0; i < numbers.Length; i++)
-                {
-                    if (numbers[i] % 2 == 0)
-                    {
-                        evenCount++;
-                        evenSum += numbers[i];
-                    }
-                }
-                if (evenCount == 0)
-                    return 0;
-                else
-                    return (double)evenSum / evenCount;
+                return 0;
             }
+
+            var n = numbers.Where(num => num % 2 == 0);
+            if (n.Count() == 0)
+                return 0;
+
+            return n.Average();
         }
 
         public int Factorial(int number)
         {
+            if (number == 0)
             {
-                if (number == 0)
-                    return 1;
-                else
-                    return number * Factorial(number - 1);
+                return 1;
             }
+            return number > 0 ? number * Factorial(number - 1) : throw new ArgumentOutOfRangeException();
         }
     }
 }

@@ -8,17 +8,22 @@ namespace ChallengesWithTestsMark8
     {
         public bool CollectionContainsWord(IEnumerable<string> words, string word, bool ignoreCase)
         {
+            bool containWord = false;
+            if (string.Equals(words, null) || words.Contains(null))
             {
-                if (ignoreCase)
-                {
-                    word = word.ToLower();
-                    return words.Any(w => w.ToLower().Equals(word));
-                }
-                else
-                {
-                    return words.Contains(word);
-                }
+                return false;
             }
+            if (ignoreCase == true) 
+            {
+                word= word.ToLower();
+                List<string> lc = words.Select(x => x.ToLower()).ToList();
+                containWord = lc.Contains(word);
+            }
+            if (ignoreCase == false)
+            {
+                containWord = words.Contains(word);
+            }
+            return containWord;
         }
 
         public bool IsPrimeNumber(int num)
@@ -35,19 +40,25 @@ namespace ChallengesWithTestsMark8
 
         public int IndexOfLastUniqueLetter(string str)
         {
+            int index = -1;
+            bool uindex; 
+            for (int i = 0; i < str.Length; i++)
             {
-                int index = -1;
-                HashSet<char> set = new HashSet<char>();
-                for (int i = str.Length - 1; i >= 0; i--)
+                uindex= true;
+                for (int j = 0; j < str.Length; j++)
                 {
-                    if (!set.Contains(str[i]))
-                    {
-                        index = i;
-                        set.Add(str[i]);
+                    if (str[i] == str[j] && i != j)
+                    { 
+                        uindex = false; 
                     }
                 }
-                return index;
+                if (uindex == true)
+                {
+                    index = i;
+                }
+                    
             }
+            return index;
         }
 
         public int MaxConsecutiveCount(int[] numbers)
@@ -73,14 +84,25 @@ namespace ChallengesWithTestsMark8
 
         public double[] GetEveryNthElement(List<double> elements, int n)
         {
+            List<double> nthElement = new List<double>();
+            double[] nullCheck= new double[0];
+            if (elements == null)
             {
-                List<double> result = new List<double>();
-                for (int i = n - 1; i < elements.Count; i += n)
-                {
-                    result.Add(elements[i]);
-                }
-                return result.ToArray();
+                return nullCheck;
             }
+            for (int i = 0; i < elements.Count; i++)
+            {
+                if (elements[i] % n ==0)
+                {
+                    nthElement.Add(elements[i]);
+                }
+                if (n < 0 || n> elements.Count)
+                {
+                    nthElement.Clear();
+                }
+            }
+            double[] finaArray = nthElement.ToArray();
+            return finaArray;
         }
     }
 }
